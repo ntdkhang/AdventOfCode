@@ -8,43 +8,49 @@ headY = 0
 tailX = 0
 tailY = 0 
 
-# snakeX = [0 for _ in range(10)]
-# snakeY = [0 for _ in range(10)]
+snakeX = [500 for _ in range(10)]
+snakeY = [500 for _ in range(10)]
 
 def moveHead(direction, steps):
     global headX, headY
 
-    def moveTail():
-        global tailX, tailY, visited
-        if direction == "U":
-            if headY == tailY + 2:
-                tailX = headX # works for both diagonal and up 
-                tailY = headY - 1
-        if direction == "D":
-            if headY == tailY - 2:
-                tailX = headX # works for both diagonal and up 
-                tailY = headY + 1
-        if direction ==  "R":
-            if headX == tailX + 2:
-                tailY = headY 
-                tailX = headX - 1
-        if direction ==  "L":
-            if headX == tailX - 2:
-                tailY = headY 
-                tailX = headX + 1
-        visited[tailY][tailX] = 1
+    def moveTails():
+        for index in range(1, 10):
+            if abs(snakeY[index - 1] - snakeY[index]) == 2:
+                if snakeX[index - 1] > snakeX[index]:
+                    snakeX[index] += 1
+                elif snakeX[index - 1] < snakeX[index]:
+                    snakeX[index] -= 1
+                
+                snakeY[index] += (snakeY[index - 1] - snakeY[index]) // 2 
+                    
+
+            if abs(snakeX[index - 1] - snakeX[index]) == 2:
+                if snakeY[index - 1] > snakeY[index]:
+                    snakeY[index] += 1
+                elif snakeY[index - 1] < snakeY[index]:
+                    snakeY[index] -= 1
+                
+                snakeX[index] += (snakeX[index - 1] - snakeX[index]) // 2 
+
+        visited[snakeY[9]][snakeX[9]] = 1
+        
 
 
     for _ in range(steps):
         if direction == "U":
-            headY += 1              
+            # headY += 1              
+            snakeY[0] += 1
         if direction == "D":
-            headY -= 1              
+            # headY -= 1              
+            snakeY[0] -= 1
         if direction == "R":
-            headX += 1              
+            # headX += 1              
+            snakeX[0] += 1
         if direction == "L":
-            headX -= 1              
-        moveTail()
+            # headX -= 1              
+            snakeX[0] -= 1
+        moveTails()
 
 
 
